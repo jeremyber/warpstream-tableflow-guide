@@ -1,0 +1,1 @@
+docker run   --env-file license.env  --net=host -v $(pwd)/customers-orders.json:/home/config.json   shadowtraffic/shadowtraffic:latest   --config /home/config.json   --watch 
