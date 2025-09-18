@@ -50,15 +50,15 @@ WarpStream TableFlow is a tool that enables you to stream data changes from your
     ![Create Tableflow](img/create-tableflow.png)
 
 ### Agent Keys
-    - Obtain your agent keys and virtual cluster IDs
-    - Keys can be found under the Agent Keys section of the Warpstream Console for each respective service
+- Obtain your agent keys and virtual cluster IDs
+- Keys can be found under the Agent Keys section of the Warpstream Console for each respective service
 
-    - Keep in mind, you need an Agent key for your Warpstream Cluster and Tableflow both.
- 
+- Keep in mind, you need an Agent key for your Warpstream Cluster and Tableflow both.
+
     ![find-agent-keys](img/find-agent-keys.png)
 
-   - Click to reveal the Kafka cluster Agent Key and copy it to `AGENT_KEY` in `set-your-variables-here.sh`
-   - Navigate to your Tableflow cluster Agent Key and copy it to `TFLOW_AGENT_KEY` in `set-your-variables-here.sh`
+- Click to reveal the Kafka cluster Agent Key and copy it to `AGENT_KEY` in `set-your-variables-here.sh`
+- Navigate to your Tableflow cluster Agent Key and copy it to `TFLOW_AGENT_KEY` in `set-your-variables-here.sh`
 
 
 ### Setup Instructions
@@ -82,7 +82,47 @@ export WARPSTREAM_DEFAULT_VIRTUAL_CLUSTER_ID=your-default-cluster-id
 - For cluster region, we set `us-east-1` so you can set that in your variables
 - For `WARPSTREAM_DEFAULT_VIRTUAL_CLUSTER_ID`, set your Tableflow Cluster ID obtained the same way as with the Kafka virtual cluster ID.
 
-2. Start WarpStream Services
+
+2. Configure Tableflow 
+- Navigate to the Configuration page of Tableflow in the UI
+- Add in the following for your pipeline and deploy:
+
+```bash
+source_clusters:
+  - name: "byoc_kafka"
+    bootstrap_brokers:
+      - hostname: "warpstream-agent"
+        port: 9092
+tables:
+  - source_cluster_name: byoc_kafka
+    source_topic: customers
+    source_format: json
+    schema_mode: inline
+    schema:
+      fields:
+        - { name: customerId, type: string, id: 1 }
+        - { name: name, type: string, id: 2 }
+        - { name: zone, type: string, id: 3 }
+        - { name: address, type: string, id: 4 }
+        - { name: membership, type: string, id: 5 }
+  - source_cluster_name: byoc_kafka
+    source_topic: orders
+    source_format: json
+    schema_mode: inline
+    schema:
+      fields:
+        - {name: orderId, type: string, id: 1 }
+        - { name: customerId, type: string, id: 2 }
+        - { name: orderDate, type: string, id: 3}
+        - { name: cost, type: float, id: 4}
+        - { name: creditCardNumber, type: string, id: 5}
+destination_bucket_url: s3://<<bucket-name>>
+```
+
+- Make sure to fill in your destination bucket url as `s3://<<bucket-name>>` with your bucket.
+- Click Save and Deploy
+
+3. Start WarpStream Services
 
 ```bash
 # Run the WarpStream setup script
@@ -147,5 +187,7 @@ Troubleshooting
 
 ### Additional Resources
 [WarpStream Documentation](https://docs.warpstream.com/warpstream/)
+
 [TableFlow Documentation](https://docs.warpstream.com/warpstream/tableflow/tableflow)
+
 [Shadow Traffic Documentation](https://docs.shadowtraffic.io/)
