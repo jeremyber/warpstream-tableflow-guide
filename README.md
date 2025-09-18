@@ -1,7 +1,11 @@
 # WarpStream TableFlow Guide
 
 ### What is WarpStream TableFlow?
-WarpStream TableFlow is a tool that enables you to stream data changes from your Kafka topics into your datalake in Apache Iceberg format. This guide demonstrates how to set up WarpStream using synthesized data from ShadowTraffic, allowing you to test and validate your data streaming pipeline with synthetic data before implementing it in production.
+Tableflow automates the tedious process of transforming a topic in an Apache Kafka-compatible data streaming system into an Apache Iceberg table. Instead of writing custom code and manually configuring a data pipeline for each table you want to build, Tableflow allows you to declaratively specify which topics to build tables from and what schema and data format to expect. When schemas inevitably need to change, you can update the schema in Tableflow's editor and WarpStream will handle the schema migration automatically.
+
+Compaction and table maintenance is included out-of-the-box with no tuning required. Tableflow continuously compacts the table in the background with intelligent heuristics to ensure readers get the best performance.
+
+>Tableflow is current available as an Early Access (EA) feature. Please [contact Warpstream](https://www.warpstream.com/contact-us) if you'd like to register to be included in the Early Access program.
 
 ### Prerequisites
 1. Docker
