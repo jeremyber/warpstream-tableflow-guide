@@ -5,6 +5,9 @@ Tableflow automates the tedious process of transforming a topic in an Apache Kaf
 
 Compaction and table maintenance is included out-of-the-box with no tuning required. Tableflow continuously compacts the table in the background with intelligent heuristics to ensure readers get the best performance.
 
+To learn more about Tableflow on Warpstream, read *[The Case for an Iceberg-Native Database: Why Spark Jobs and Zero-Copy Kafka Won’t Cut It](https://www.warpstream.com/blog/the-case-for-an-iceberg-native-database-why-spark-jobs-and-zero-copy-kafka-wont-cut-it)*
+
+
 >Tableflow is current available as an Early Access (EA) feature. Please [contact Warpstream](https://www.warpstream.com/contact-us) if you'd like to register to be included in the Early Access program.
 
 ### Prerequisites
