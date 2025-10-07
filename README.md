@@ -129,7 +129,7 @@ destination_bucket_url: <<bucket-name>>
 - `hostname` should be bootstrap url without port, can be found under Clusters > Connect tab.
 ![](img/find-hostname.png)
 
-- Make sure to fill in your destination bucket url as `<<bucket-name>>` with your bucket.
+- Make sure to fill in your destination bucket url as `s3://<<bucket-name>>` with your full s3 url.
 - Click Save and Deploy
 
 3. Start WarpStream Services
