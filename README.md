@@ -36,11 +36,12 @@ To learn more about Tableflow on Warpstream, read *[The Case for an Iceberg-Nati
 - Sign up at [WarpStream](https://console.warpstream.com/signup)
 - [Open Warpstream Console](https://console.warpstream.com/) once signed up and signed in.
 - Create Warpstream Cluster
+Here, we are creating a Kafka-compatible Warpstream cluster that uses object storage to persist data that you can interact with using the Kafka protocol. 
     - Navigate to Clusters
-    - **Create Cluster**
+    - **Create Kafka Cluster**
     - **Cluster Tier**: `Dev`
     - **Give cluster a name**: `my_ws_cluster`
-    - **Cluster Tier**: `BYOC`
+    - **Deployment Model**: `BYOC`
     - **Region**: `us-east-1`
     - **+ Create Cluster**
 
@@ -71,18 +72,18 @@ To learn more about Tableflow on Warpstream, read *[The Case for an Iceberg-Nati
 ### Setup Instructions
 1. Configure Environment Variables
 
-Edit (`set-your-variables-here.sh`)[set-your-variables-here.sh] with your WarpStream and AWS details:
+Edit [`set-your-variables-here.sh`](set-your-variables-here.sh) with your WarpStream and AWS details:
 ```bash
-export S3_BUCKET=your-s3-bucket-name
+export S3_BUCKET=s3://your-s3-bucket-name
 export S3_BUCKET_REGION=your-aws-region
 export AGENT_KEY=your-warpstream-agent-key
 export TFLOW_AGENT_KEY=your-tableflow-agent-key
-export YOUR_VIRTUAL_CLUSTER_ID=your-cluster-id
+export KAFKA_VIRTUAL_CLUSTER_ID=your-warpstream-cluster-id
 export CLUSTER_REGION=your-cluster-region
-export WARPSTREAM_DEFAULT_VIRTUAL_CLUSTER_ID=your-default-cluster-id
+export TF_VIRTUAL_CLUSTER_ID=your-tableflow-cluster-id
 ```
 
-- For S3 Bucket, simply provide the name of the bucket without the `s3://` or any pathing.
+- For S3 Bucket, provide the full s3 url: `s3://your-s3-bucket-name`.
 - Provide the S3 Bucket region
 - We obtained the Agent keys in the previous section
 - For Virtual Cluster ID, navigate to your Warpstream Kafka Cluster Main Page and copy the Cluster ID from the table.
@@ -125,6 +126,8 @@ tables:
         - { name: creditCardNumber, type: string, id: 5}
 destination_bucket_url: s3://<<bucket-name>>
 ```
+- `hostname` should be bootstrap url without port, can be found under Clusters > Connect tab.
+![](img/find-hostname.png)
 
 - Make sure to fill in your destination bucket url as `s3://<<bucket-name>>` with your bucket.
 - Click Save and Deploy
@@ -144,8 +147,9 @@ This will:
 3. Configure Shadow Traffic
 
 - Supply and create your `license.env` file for ShadowTraffic in the root of this project.
+  - You can obtain a ShadowTraffic License for generating data [here](https://shadowtraffic.io/pricing.html).
 
-- Review and customize customers-orders.json for your data simulation needs. This file defines the structure and patterns of your synthetic data.
+- Review and customize [customers-orders.json](customers-orders.json) for your data simulation needs. This file defines the structure and patterns of your synthetic data.
 
 - Start Shadow Traffic Simulation
 

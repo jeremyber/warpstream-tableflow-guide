@@ -1,6 +1,8 @@
 # set all my instance variables
 source set-your-variables-here.sh
 
+export AWS_REGION=$S3_BUCKET_REGION
+
 docker network create warpstream-net
 
 
@@ -9,9 +11,9 @@ docker run --name warpstream-agent --network warpstream-net -d -v ~/.aws:/root/.
 -e GOMAXPROCS=3 \
 public.ecr.aws/warpstream-labs/warpstream_agent:latest \
     agent \
-    -bucketURL "s3://$S3_BUCKET?region=$S3_BUCKET_REGION" \
+    -bucketURL $S3_BUCKET \
     -agentKey $AGENT_KEY \
-    -defaultVirtualClusterID $YOUR_VIRTUAL_CLUSTER_ID \
+    -defaultVirtualClusterID $KAFKA_VIRTUAL_CLUSTER_ID \
     -region $CLUSTER_REGION
 
 
@@ -23,8 +25,8 @@ public.ecr.aws/warpstream-labs/warpstream_agent:latest \
     -e GOMAXPROCS=12 \
     public.ecr.aws/warpstream-labs/warpstream_agent:latest \
     agent \
-    -bucketURL s3://$S3_BUCKET \
+    -bucketURL $S3_BUCKET \
     -agentKey $TFLOW_AGENT_KEY \
     -region $CLUSTER_REGION \
     -kafkaPort 9092 \
-    -defaultVirtualClusterID $WARPSTREAM_DEFAULT_VIRTUAL_CLUSTER_ID
+    -defaultVirtualClusterID $TF_VIRTUAL_CLUSTER_ID
