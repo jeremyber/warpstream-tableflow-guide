@@ -124,12 +124,12 @@ tables:
         - { name: orderDate, type: string, id: 3}
         - { name: cost, type: float, id: 4}
         - { name: creditCardNumber, type: string, id: 5}
-destination_bucket_url: s3://<<bucket-name>>
+destination_bucket_url: <<bucket-name>>
 ```
 - `hostname` should be bootstrap url without port, can be found under Clusters > Connect tab.
 ![](img/find-hostname.png)
 
-- Make sure to fill in your destination bucket url as `s3://<<bucket-name>>` with your bucket.
+- Make sure to fill in your destination bucket url as `<<bucket-name>>` with your bucket.
 - Click Save and Deploy
 
 3. Start WarpStream Services
